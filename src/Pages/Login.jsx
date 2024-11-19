@@ -9,7 +9,7 @@ export default function Login() {
 
     return (
         <>
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="flex justify-center items-center h-[70vh]">
                 <div className="bg-zinc-800 p-8 rounded-lg shadow-lg w-96 text-white">
                     <h2 className="text-2xl font-bold mb-6 text-center">
                         Iniciar Sesión
@@ -53,13 +53,7 @@ export default function Login() {
                     </form>
                 </div>
             </div>
-            <div className="fixed top-56 left-0 w-full h-full flex justify-center items-center -z-10 overflow-hidden">
-                <img
-                    src="/images/Auto.png"
-                    alt="logo"
-                    className="scale-150 blur-sm"
-                />
-            </div>
+
         </>
     );
 }

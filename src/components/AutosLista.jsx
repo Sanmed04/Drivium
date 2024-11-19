@@ -1,77 +1,154 @@
 import AutoItem from "./AutoItem";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
 const lista = [
     {
         id: 1,
         image: "/images/Auto1.png",
-        nombre: "Auto 1",
-        categoria: "Urbano",
-        precio: 100,
+        nombre: "Civic Family",
+        categoria: "Urbano", 
+        descripcion: "Auto compacto con motor 3.5L y 5 puertas",
+        precio: 4100,
+        marca: "Honda",
+        puertas: 5,
+        pasajeros: 5,
+        motor: "3.5L",
+        condicionado: true,
     },
     {
         id: 2,
         image: "/images/Auto2.png",
-        nombre: "Auto 2",
+        nombre: "Venue",
         categoria: "Camioneta",
-        precio: 200,
+        descripcion: "Auto compacto con motor 1.5L y 5 puertas",
+        precio: 3200,
+        marca: "Hyundai",
+        puertas: 5,
+        pasajeros: 5,
+        motor: "1.5L",
+        condicionado: true,
     },
     {
         id: 3,
         image: "/images/Auto3.png",
-        nombre: "Auto 3",
+        nombre: "AMG GT",
         categoria: "Deportivo",
-        precio: 300,
+        descripcion: "Auto deportivo con motor 2L y 2 puertas",
+        precio: 6300,
+        marca: "Mercedes Benz",
+        puertas: 2,
+        pasajeros: 2,
+        motor: "2L",
+        condicionado: true,
+
+
+
     },
     {
         id: 4,
         image: "/images/Auto4.png",
-        nombre: "Auto 4",
+        nombre: "Safari",
         categoria: "Camioneta",
-        precio: 400,
+        descripcion: "Auto compacto con motor 3.5L y 5 puertas",
+        precio: 6400,
+        marca: "Tata",
+        puertas: 5,
+        pasajeros: 5,
+        motor: "3.5L",
+        condicionado: true,
     },
     {
         id: 5,
         image: "/images/Auto5.png",
-        nombre: "Auto 5",
+        nombre: "i4 Sport",
         categoria: "Deportivo",
-        precio: 500,
+        descripcion: "Auto deportivo con motor 2.5L y 4 puertas",
+        precio: 7600,
+        marca: "BMW",
+        puertas: 4,
+        pasajeros: 5,
+        motor: "2.5L",
+        condicionado: true,
     },
     {
         id: 6,
         image: "/images/Auto6.png",
-        nombre: "Auto 6",
+        nombre: "Explorer",
         categoria: "Camioneta",
-        precio: 600,
+        descripcion: "Auto compacto con motor 1.5L y 4 puertas",
+        precio: 6600,
+        marca: "Ford",
+        puertas: 4,
+        pasajeros: 5,
+        motor: "1.5L",
+        condicionado: true,
     },
     {
         id: 7,
         image: "/images/Auto7.png",
-        nombre: "Auto 7",
+        nombre: "VF8",
         categoria: "Camioneta",
-        precio: 700,
+        descripcion: "Auto compacto con motor 1.5L y 4 puertas",
+        precio: 5500,
+        marca: "VinFast",
+        puertas: 4,
+        pasajeros: 5,
+        motor: "1.5L",
+        condicionado: true,
     },
     {
         id: 8,
         image: "/images/Auto8.png",
-        nombre: "Auto 8",
+        nombre: "Q3",
         categoria: "Camioneta",
-        precio: 800,
+        descripcion: "Auto compacto con motor 1.5L y 4 puertas",
+        precio: 5800,
+        marca: "Audi",
+        puertas: 4,
+        pasajeros: 4,
+        motor: "1.5L",
+        condicionado: true,
     },
     {
         id: 9,
         image: "/images/Auto9.png",
-        nombre: "Auto 9",
+        nombre: "Corolla",
         categoria: "Urbano",
-        precio: 900,
+        descripcion: "Auto compacto con motor 1.5L y 4 puertas",
+        precio: 3900,
+        marca: "Toyota",
+        puertas: 4,
+        pasajeros: 5,
+        motor: "1.5L",
+        condicionado: true,
     },
 ];
 
-export default function AutosLista() {
+export default function AutosLista({ searchTerm }) {
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const categoria = queryParams.get('categoria');
     const [autos, setAutos] = useState(lista);
+
+    useEffect(() => {
+        // Filtrar por término de búsqueda primero
+        let filteredAutos = lista.filter(auto => 
+            auto.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            auto.marca.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        // Luego filtrar por categoría si existe
+        if (categoria) {
+            filteredAutos = filteredAutos.filter(auto => auto.categoria === categoria);
+        }
+
+        setAutos(filteredAutos);
+    }, [searchTerm, categoria]);
 
     return (
         <>
-            <div className="row flex flex-wrap gap-5 justify-center max-w-screen-2xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 justify-items-center max-w-screen-2xl mx-auto">
                 {autos.map((auto) => (
                     <AutoItem key={auto.nombre} {...auto} />
                 ))}
