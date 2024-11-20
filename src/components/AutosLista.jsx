@@ -132,13 +132,11 @@ export default function AutosLista({ searchTerm }) {
     const [autos, setAutos] = useState(lista);
 
     useEffect(() => {
-        // Filtrar por término de búsqueda primero
         let filteredAutos = lista.filter(auto => 
             auto.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
             auto.marca.toLowerCase().includes(searchTerm.toLowerCase())
         );
 
-        // Luego filtrar por categoría si existe
         if (categoria) {
             filteredAutos = filteredAutos.filter(auto => auto.categoria === categoria);
         }

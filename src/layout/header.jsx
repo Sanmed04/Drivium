@@ -1,8 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { IoMdArrowDropdown, IoMdMenu, IoMdClose } from "react-icons/io";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Header() {
+    const { is_logueado } = useAuth();
+
     const location = useLocation();
     const [isOpen, setIsOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -131,14 +134,23 @@ export default function Header() {
                     >
                         Contacto
                     </Link>
-
-                    <Link
-                        to="/login"
-                        className="hidden md:flex hover:scale-105 transition-all duration-300 text-xl md:text-2xl z-50"
-                        onClick={() => setIsOpen(false)}
-                    >
-                        Login
-                    </Link>
+                    {(is_logueado) ? 
+                        <Link
+                            to="/dashboard"
+                            className="hidden md:flex hover:scale-105 transition-all duration-300 text-xl md:text-2xl z-50"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            Dashboard
+                        </Link>
+                     : 
+                        <Link
+                            to="/login"
+                            className="hidden md:flex hover:scale-105 transition-all duration-300 text-xl md:text-2xl z-50"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            Login
+                        </Link>
+                    }
                 </div>
             </div>
             {/* Menu mobile */}
