@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AutosLista from "../components/AutosLista";
+import DisplayAutos from "../components/DisplayAutos";
 
 export default function Explorar() {
     const [searchTerm, setSearchTerm] = useState("");
@@ -14,7 +14,7 @@ export default function Explorar() {
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
             </div>
-            <AutosLista searchTerm={searchTerm} />
+            <DisplayAutos searchTerm={searchTerm} />
         </>
     );
 }

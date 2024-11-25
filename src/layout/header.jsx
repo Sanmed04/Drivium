@@ -1,10 +1,17 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { IoMdArrowDropdown, IoMdMenu, IoMdClose } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Header() {
-    const { is_logueado } = useAuth();
+    const { is_logueado, is_admin, logout } = useAuth();
+    const navigate = useNavigate();
+    const handlerLogout = (e) => {
+        e.preventDefault();
+        logout();
+        navigate("/");
+    };
 
     const location = useLocation();
     const [isOpen, setIsOpen] = useState(false);
@@ -134,15 +141,25 @@ export default function Header() {
                     >
                         Contacto
                     </Link>
-                    {(is_logueado) ? 
-                        <Link
-                            to="/dashboard"
-                            className="hidden md:flex hover:scale-105 transition-all duration-300 text-xl md:text-2xl z-50"
-                            onClick={() => setIsOpen(false)}
-                        >
-                            Dashboard
-                        </Link>
-                     : 
+                    {is_logueado ? (
+                        <>
+                            {is_admin && (
+                                <Link
+                                    to="/admin/dashboard"
+                                    className="hidden md:flex hover:scale-105 transition-all duration-300 text-xl md:text-2xl z-50"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    Dashboard
+                                </Link>
+                            )}
+                            <a
+                                className="hidden md:flex hover:scale-105 transition-all duration-300 text-xl md:text-2xl z-50 cursor-pointer"
+                                onClick={handlerLogout}
+                            >
+                                Logout
+                            </a>
+                        </>
+                    ) : (
                         <Link
                             to="/login"
                             className="hidden md:flex hover:scale-105 transition-all duration-300 text-xl md:text-2xl z-50"
@@ -150,7 +167,7 @@ export default function Header() {
                         >
                             Login
                         </Link>
-                    }
+                    )}
                 </div>
             </div>
             {/* Menu mobile */}
@@ -183,13 +200,33 @@ export default function Header() {
                     >
                         Autos
                     </Link>
-                    <Link
-                        to="/login"
-                        className="hover:text-gray-300 transition-colors text-5xl"
-                        onClick={() => setIsOpen(false)}
-                    >
-                        Login
-                    </Link>
+                    {is_logueado ? (
+                        <>
+                            {is_admin && (
+                                <Link
+                                    to="/admin/dashboard"
+                                    className="hover:text-gray-300 transition-colors text-5xl mb-8"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    Dashboard
+                                </Link>
+                            )}
+                            <a
+                                className="hover:text-gray-300 transition-colors text-5xl cursor-pointer"
+                                onClick={handlerLogout}
+                            >
+                                Logout
+                            </a>
+                        </>
+                    ) : (
+                        <Link
+                            to="/login"
+                            className="hover:text-gray-300 transition-colors text-5xl"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            Login
+                        </Link>
+                    )}
                 </div>
             )}
         </header>
