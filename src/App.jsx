@@ -1,8 +1,8 @@
 import "./App.css";
 import "./index.css";
 import Contacto from "./Pages/Contacto";
-import Index from "./Pages/index";
-import Error from "./Pages/error";
+import Index from "./Pages/Index";
+import Error from "./Pages/Error";
 import Header from "./layout/header";
 import Explorar from "./Pages/Explorar";
 import Footer from "./layout/footer";
