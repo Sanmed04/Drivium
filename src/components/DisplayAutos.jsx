@@ -25,11 +25,17 @@ export default function DisplayAutos({ searchTerm }) {
 
     return (
         <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 justify-items-center max-w-screen-2xl mx-auto">
-                {autos.map((auto) => (
-                    <AutoItem key={auto.nombre} {...auto} />
-                ))}
-            </div>
+            {autos.length === 0 ? (
+                <div className="flex justify-center items-center h-full">
+                    <p className="text-4xl text-gray-500 mt-20">Sin resultados</p>
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 justify-items-center max-w-screen-2xl mx-auto">
+                    {autos.map((auto) => (
+                        <AutoItem key={auto.nombre} {...auto} />
+                    ))}
+                </div>
+            )}
         </>
     );
 }

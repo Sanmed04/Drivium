@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { useState, useEffect } from "react";
 import { IoMdArrowDropdown, IoMdMenu, IoMdClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,6 @@ export default function Header() {
         navigate("/");
     };
 
-    const location = useLocation();
     const [isOpen, setIsOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -56,16 +55,14 @@ export default function Header() {
                         onMouseEnter={() => setIsDropdownOpen(true)}
                         onMouseLeave={closeDropdown}
                     >
-                        {location.pathname !== "/contacto" && (
-                            <Link
-                                to="/autos"
-                                className="flex items-center gap-1 text-xl md:text-2xl z-50"
-                                onClick={closeDropdown}
-                            >
-                                Autos
-                                <IoMdArrowDropdown />
-                            </Link>
-                        )}
+                        <Link
+                            to="/autos"
+                            className="flex items-center gap-1 text-xl md:text-2xl z-50"
+                            onClick={closeDropdown}
+                        >
+                            Autos
+                            <IoMdArrowDropdown />
+                        </Link>
                         {isDropdownOpen && (
                             <div className="dropdown-content top-0">
                                 <div className="row flex flex-col md:flex-row justify-between bg-gradient-to-b from-zinc-900 to-zinc-800  min-h-[540px]">
