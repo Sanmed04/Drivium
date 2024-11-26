@@ -42,7 +42,7 @@ export default function AdminAutos() {
                     <FaArrowLeft className="mx-auto" size={20} />
                 </Link>
                 <h1 className="text-4xl md:text-6xl font-bold text-center">
-                    Dashboard de Autos
+                    Dashboard Autos
                 </h1>
                 <button
                     onClick={handleAddClick}

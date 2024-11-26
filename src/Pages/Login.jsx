@@ -27,7 +27,7 @@ export default function Login() {
                     <img
                         src="/images/Car1.webp"
                         alt="bg"
-                        className="scale-125"
+                        className="scale-125 hidden md:block"
                     />
                 </div>
                 <div className="md:w-1/3 flex justify-center">
@@ -86,7 +86,7 @@ export default function Login() {
                 </div>
 
                 <div className="md:w-1/3 flex justify-start">
-                    <img src="/images/Car2.webp" alt="bg" className="" />
+                    <img src="/images/Car2.webp" alt="bg" className="hidden md:block" />
                 </div>
             </div>
         </>

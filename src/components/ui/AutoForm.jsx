@@ -62,7 +62,7 @@ export default function AutoForm({ autoInicial, onSave, onClose }) {
     };
 
     return (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50">
             <div ref={formRef} className="bg-white p-6 rounded-lg shadow-lg items-center w-full max-w-md">
                 <h2 className="text-xl font-bold mb-4 text-center">
                     {autoInicial ? "Editar Auto" : "Añadir Auto"}

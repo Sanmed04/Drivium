@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { listaUsuarios } from "../components/usuarios/ListaUsuarios";
 
 const AuthContext = createContext();
 
@@ -17,21 +18,21 @@ export function AuthProvider({ children }) {
     }, []);
 
     const login = (email, password) => {
-        const adminEmail = "admin@gmail.com";
-        const adminPassword = "123";
-        const userEmail = "usuario@gmail.com";
-        const userPassword = "123";
+        const usuario = listaUsuarios.find(
+            (user) => user.email === email && user.password === password
+        );
 
-        if (email === adminEmail && password === adminPassword) {
+        if (usuario) {
             setIsLogueado(true);
-            setIsAdmin(true);
             localStorage.setItem('is_logueado', 'true');
-            localStorage.setItem('is_admin', 'true');
-        } else if (email === userEmail && password === userPassword) {
-            setIsLogueado(true);
-            setIsUser(true);
-            localStorage.setItem('is_logueado', 'true');
-            localStorage.setItem('is_user', 'true');
+
+            if (usuario.rol === "Admin") {
+                setIsAdmin(true);
+                localStorage.setItem('is_admin', 'true');
+            } else {
+                setIsUser(true);
+                localStorage.setItem('is_user', 'true');
+            }
         } else {
             alert("Credenciales incorrectas");
         }

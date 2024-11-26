@@ -44,7 +44,7 @@ export default function Header() {
                         Drivium
                     </h1>
                 </Link>
-                <div className="md:hidden">
+                <div className="md:hidden z-50" >
                     <button onClick={() => setIsOpen(!isOpen)}>
                         {!isOpen && <IoMdMenu size={60} />}
                     </button>
@@ -67,12 +67,12 @@ export default function Header() {
                             </Link>
                         )}
                         {isDropdownOpen && (
-                            <div className="dropdown-content">
-                                <div className="row flex flex-col md:flex-row justify-between bg-gradient-to-b from-zinc-900 to-zinc-800  min-h-[420px]">
+                            <div className="dropdown-content top-0">
+                                <div className="row flex flex-col md:flex-row justify-between bg-gradient-to-b from-zinc-900 to-zinc-800  min-h-[540px]">
                                     <div className="w-full md:w-1/3 flex justify-end">
                                         <Link
                                             to="/autos?categoria=Urbano"
-                                            className="flex flex-col items-center justify-center h-inherit p-4 rounded-lg transition-colors my-auto"
+                                            className="flex flex-col items-center justify-center h-inherit p-4 rounded-lg transition-colors my-auto mb-24"
                                             onClick={closeDropdown}
                                         >
                                             <img
@@ -90,7 +90,7 @@ export default function Header() {
                                     <div className="w-full md:w-1/3 flex justify-center">
                                         <Link
                                             to="/autos?categoria=Camioneta"
-                                            className="flex flex-col items-center justify-center h-inherit p-4 rounded-lg transition-colors my-auto"
+                                            className="flex flex-col items-center justify-center h-inherit p-4 rounded-lg transition-colors my-auto mb-24"
                                             onClick={closeDropdown}
                                         >
                                             <img
@@ -108,7 +108,7 @@ export default function Header() {
                                     <div className="w-full md:w-1/3 flex justify-start">
                                         <Link
                                             to="/autos?categoria=Deportivo"
-                                            className="flex flex-col items-center justify-center h-inherit p-4 rounded-lg transition-colors my-auto"
+                                            className="flex flex-col items-center justify-center h-inherit p-4 rounded-lg transition-colors my-auto mb-24"
                                             onClick={closeDropdown}
                                         >
                                             <img
