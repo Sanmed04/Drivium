@@ -10,15 +10,15 @@ import RentarCalendario from "./RentarCalendario";
 
 export default function AutoPopup({
     image,
-    nombre,
-    categoria,
-    precio,
-    descripcion,
-    marca,
-    pasajeros,
-    puertas,
-    motor,
-    condicionado,
+    name,
+    category,
+    price,
+    description,
+    brand,
+    passengers,
+    doors,
+    engine,
+    ac,
     togglePopup,
     is_logueado,
 }) {
@@ -67,22 +67,23 @@ export default function AutoPopup({
                 <div className="w-full md:w-1/2 md:my-5 md:ml-16">
                     <span className="flex space-x-4">
                         <h5 className="text-3xl md:text-5xl font-bold truncate">
-                            {marca} {nombre}
+                            {brand} {name}
                         </h5>
                     </span>
 
                     <Link
-                        to={`/autos?categoria=${categoria}`}
+                        to={`/autos?categoria=${category}`}
                         className="text-xlmd:text-2xl md:mt-1 underline"
+                        onClick={togglePopup} // Close the popup when the link is clicked
                     >
-                        {categoria}
+                        {category}
                     </Link>
                     <p className="hidden md:block text-xl md:mt-4">
-                        {descripcion}
+                        {description}
                     </p>
                     <p className="text-2xl md:text-4xl font-bold my-2 md:mt-4">
                         {" "}
-                        ${precio},00
+                        ${price},00
                     </p>
 
                     <div className="flex space-x-2 mt-2 items-center">
@@ -114,7 +115,7 @@ export default function AutoPopup({
                                 <IoPersonOutline size={20} />
                             </div>
                             <p className="card-text text-lg mt-1  ">
-                                {pasajeros}
+                                {passengers}
                             </p>
                         </div>
                         <div className="flex flex-col items-center">
@@ -122,7 +123,7 @@ export default function AutoPopup({
                                 <MdOutlineSensorDoor size={20} />
                             </div>
                             <p className="card-text text-lg mt-1  ">
-                                {puertas}
+                                {doors}
                             </p>
                         </div>
                         <div className="flex flex-col items-center">
@@ -130,7 +131,7 @@ export default function AutoPopup({
                                 <PiTreasureChest size={20} />
                             </div>
                             <p className="card-text text-lg mt-1  ">
-                                {motor}
+                                {engine}
                             </p>
                         </div>
                         <div className="flex flex-col items-center">
@@ -138,11 +139,11 @@ export default function AutoPopup({
                                 <FaRegSnowflake size={20} />
                             </div>
                             <p className="card-text text-lg mt-1  ">
-                                {condicionado ? "Si" : "No"}
+                                {ac ? "Si" : "No"}
                             </p>
                         </div>
                     </div>
-                    <RentarCalendario precio={precio} isLoggedIn={is_logueado} />
+                    <RentarCalendario precio={price} isLoggedIn={is_logueado} />
                 </div>
             </div>
         </div>

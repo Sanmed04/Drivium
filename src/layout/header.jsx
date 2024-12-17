@@ -1,11 +1,11 @@
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { IoMdArrowDropdown, IoMdMenu, IoMdClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Header() {
-    const { is_logueado, is_admin, logout } = useAuth();
+    const { is_logueado, role, logout } = useAuth();
     const navigate = useNavigate();
     const handlerLogout = (e) => {
         e.preventDefault();
@@ -138,24 +138,22 @@ export default function Header() {
                     >
                         Contacto
                     </Link>
+                    {is_logueado && role === 'admin' && (
+                        <Link
+                            to="/admin/dashboard"
+                            className="hidden md:flex hover:scale-105 transition-all duration-300 text-xl md:text-2xl z-50"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            Dashboard
+                        </Link>
+                    )}
                     {is_logueado ? (
-                        <>
-                            {is_admin && (
-                                <Link
-                                    to="/admin/dashboard"
-                                    className="hidden md:flex hover:scale-105 transition-all duration-300 text-xl md:text-2xl z-50"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    Dashboard
-                                </Link>
-                            )}
-                            <a
-                                className="hidden md:flex hover:scale-105 transition-all duration-300 text-xl md:text-2xl z-50 cursor-pointer"
-                                onClick={handlerLogout}
-                            >
-                                Logout
-                            </a>
-                        </>
+                        <a
+                            className="hidden md:flex hover:scale-105 transition-all duration-300 text-xl md:text-2xl z-50 cursor-pointer"
+                            onClick={handlerLogout}
+                        >
+                            Logout
+                        </a>
                     ) : (
                         <Link
                             to="/login"
@@ -197,24 +195,22 @@ export default function Header() {
                     >
                         Autos
                     </Link>
+                    {is_logueado && role === 'admin' && (
+                        <Link
+                            to="/admin/dashboard"
+                            className="hover:text-gray-300 transition-colors text-5xl mb-8"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            Dashboard
+                        </Link>
+                    )}
                     {is_logueado ? (
-                        <>
-                            {is_admin && (
-                                <Link
-                                    to="/admin/dashboard"
-                                    className="hover:text-gray-300 transition-colors text-5xl mb-8"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    Dashboard
-                                </Link>
-                            )}
-                            <a
-                                className="hover:text-gray-300 transition-colors text-5xl cursor-pointer"
-                                onClick={handlerLogout}
-                            >
-                                Logout
-                            </a>
-                        </>
+                        <a
+                            className="hover:text-gray-300 transition-colors text-5xl cursor-pointer"
+                            onClick={handlerLogout}
+                        >
+                            Logout
+                        </a>
                     ) : (
                         <Link
                             to="/login"

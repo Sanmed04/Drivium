@@ -1,34 +1,73 @@
-import { useState } from "react";
-import { listaUsuarios } from "../../components/usuarios/ListaUsuarios";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { CiEdit } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import UsuarioForm from "../../components/ui/UsuarioForm";
 
 export default function Usuarios() {
-    const [usuarios, setUsuarios] = useState(listaUsuarios);
+    const [usuarios, setUsuarios] = useState([]);
     const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
     const [mostrarFormulario, setMostrarFormulario] = useState(false);
+
+    useEffect(() => {
+        const fetchUsuarios = async () => {
+            try {
+                const response = await axios.get("http://localhost:8888/usuarios");
+                if (response.data.success && Array.isArray(response.data.users)) {
+                    const usuariosConIds = response.data.users.map(user => ({
+                        ...user,
+                        id: user.ID
+                    }));
+                    setUsuarios(usuariosConIds);
+                } else {
+                    console.error("Unexpected response format:", response.data);
+                }
+            } catch (error) {
+                console.error("Error devolviendo usuarios", error);
+            }
+        };
+
+        fetchUsuarios();
+    }, []);
 
     const handleEditClick = (usuario) => {
         setUsuarioSeleccionado(usuario);
         setMostrarFormulario(true);
     };
 
-    const handleSave = (nuevoUsuario) => {
-        if (usuarioSeleccionado) {
-            setUsuarios(
-                usuarios.map((usuario) =>
-                    usuario.nombre === usuarioSeleccionado.nombre ? nuevoUsuario : usuario
-                )
-            );
-        } else {
-            setUsuarios([...usuarios, { ...nuevoUsuario, id: usuarios.length + 1 }]);
+    const handleSave = async (nuevoUsuario) => {
+        try {
+            if (usuarioSeleccionado) {
+                await axios.put(
+                    `http://localhost:8888/admin/usuarios/${usuarioSeleccionado.id}`,
+                    nuevoUsuario
+                );
+                setUsuarios(
+                    usuarios.map((usuario) =>
+                        usuario.id === usuarioSeleccionado.id
+                            ? { ...usuario, ...nuevoUsuario }
+                            : usuario
+                    )
+                );
+            } else {
+                const response = await axios.post(
+                    "http://localhost:8888/admin/usuarios",
+                    nuevoUsuario
+                );
+                setUsuarios([...usuarios, { ...nuevoUsuario, id: response.data.id }]);
+            }
+            setMostrarFormulario(false);
+            setUsuarioSeleccionado(null);
+        } catch (error) {
+            console.error("Error guardando el usuario", error);
         }
     };
 
-    const admins = usuarios.filter(usuario => usuario.rol === "Admin");
-    const usuariosRegulares = usuarios.filter(usuario => usuario.rol === "Usuario");
+    const admins = usuarios.filter((usuario) => usuario.role === "admin");
+    const usuariosRegulares = usuarios.filter(
+        (usuario) => usuario.role === "user"
+    );
 
     return (
         <div className="flex flex-col  items-center min-h-[70.8vh]">
@@ -46,34 +85,40 @@ export default function Usuarios() {
             </div>
 
             <div className="w-full max-w-screen-2xl mx-auto">
-                <h1 className="text-3xl font-bold mb-6 md:ml-8 text-center md:text-left">Administradores</h1>
+                <h1 className="text-3xl font-bold mb-6 md:ml-8 text-center md:text-left">
+                    Administradores
+                </h1>
                 <div className="flex flex-col md:flex-row flex-wrap  items-center mx-10">
                     {admins.map((usuario) => (
                         <div
-                            key={usuario.nombre}
+                            key={usuario.id}
                             className="flex flex-col items-center m-4 p-8 border rounded-lg shadow-lg relative cursor-pointer"
                             onClick={() => handleEditClick(usuario)}
                         >
                             <CiEdit className="absolute top-2 right-2" size={40} />
-                            <h2 className="text-lg font-semibold">{usuario.nombre}</h2>
+                            <h2 className="text-lg font-semibold">{usuario.name}</h2>
                             <p className="text-sm">{usuario.email}</p>
-                            <p className="text-sm">{usuario.rol}</p>
+                            <p className="text-sm">{usuario.role}</p>
+                            <input type="hidden" value={usuario.id} />
                         </div>
                     ))}
                 </div>
 
-                <h1 className="text-3xl font-bold my-6 md:ml-8 text-center md:text-left">Usuarios</h1>
+                <h1 className="text-3xl font-bold my-6 md:ml-8 text-center md:text-left">
+                    Usuarios
+                </h1>
                 <div className="flex flex-col md:flex-row flex-wrap items-center mx-10">
                     {usuariosRegulares.map((usuario) => (
                         <div
-                            key={usuario.nombre}
+                            key={usuario.id}
                             className="flex flex-col items-center m-4 p-8 border rounded-lg shadow-lg relative cursor-pointer"
                             onClick={() => handleEditClick(usuario)}
                         >
                             <CiEdit className="absolute top-2 right-2" size={40} />
-                            <h2 className="text-lg font-semibold">{usuario.nombre}</h2>
+                            <h2 className="text-lg font-semibold">{usuario.name}</h2>
                             <p className="text-sm">{usuario.email}</p>
-                            <p className="text-sm">{usuario.rol}</p>
+                            <p className="text-sm">{usuario.role}</p>
+                            <input type="hidden" value={usuario.id} />
                         </div>
                     ))}
                 </div>

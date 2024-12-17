@@ -1,54 +1,51 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { listaUsuarios } from "../components/usuarios/ListaUsuarios";
+import axios from "axios";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
     const [is_logueado, setIsLogueado] = useState(false);
-    const [is_admin, setIsAdmin] = useState(false);
-    const [is_user, setIsUser] = useState(false);
+    const [token, setToken] = useState("");
+    const [role, setRole] = useState("");
 
     useEffect(() => {
         const loggedIn = localStorage.getItem('is_logueado') === 'true';
-        const admin = localStorage.getItem('is_admin') === 'true';
-        const user = localStorage.getItem('is_user') === 'true';
+        const storedToken = localStorage.getItem('token');
+        const storedRole = localStorage.getItem('role');
         setIsLogueado(loggedIn);
-        setIsAdmin(admin);
-        setIsUser(user);
+        setToken(storedToken);
+        setRole(storedRole);
+        console.log("Stored Role:", storedRole); // Log the stored role
+
+        if (storedToken) {
+            axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+        }
     }, []);
 
-    const login = (email, password) => {
-        const usuario = listaUsuarios.find(
-            (user) => user.email === email && user.password === password
-        );
+    const login = (token, role) => {
+        setIsLogueado(true);
+        setToken(token);
+        setRole(role);
+        localStorage.setItem('is_logueado', 'true');
+        localStorage.setItem('token', token);
+        localStorage.setItem('role', role);
+        console.log("Login Role:", role); // Log the role on login
 
-        if (usuario) {
-            setIsLogueado(true);
-            localStorage.setItem('is_logueado', 'true');
-
-            if (usuario.rol === "Admin") {
-                setIsAdmin(true);
-                localStorage.setItem('is_admin', 'true');
-            } else {
-                setIsUser(true);
-                localStorage.setItem('is_user', 'true');
-            }
-        } else {
-            alert("Credenciales incorrectas");
-        }
-    };
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
 
     const logout = () => {
         setIsLogueado(false);
-        setIsAdmin(false);
-        setIsUser(false);
+        setToken(null);
+        setRole("");
         localStorage.removeItem('is_logueado');
-        localStorage.removeItem('is_admin');
-        localStorage.removeItem('is_user');
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        delete axios.defaults.headers.common['Authorization'];
     };
 
     return (
-        <AuthContext.Provider value={{ is_logueado, is_admin, is_user, login, logout }}>
+        <AuthContext.Provider value={{ is_logueado, token, role, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

@@ -3,16 +3,16 @@ import { useState, useEffect, useRef } from "react";
 export default function AutoForm({ autoInicial, onSave, onClose }) {
     const [formData, setFormData] = useState(
         autoInicial || {
-            nombre: "",
-            categoria: "",
-            precio: "",
-            condicionado: false,
+            name: "",
+            category: "",
+            price: "",
+            ac: false,
             image: "",
-            descripcion: "",
-            marca: "",
-            puertas: 0,
-            pasajeros: 0,
-            motor: "",
+            description: "",
+            brand: "",
+            doors: 0,
+            passengers: 0,
+            engine: "",
         }
     );
 
@@ -52,8 +52,8 @@ export default function AutoForm({ autoInicial, onSave, onClose }) {
     };
 
     const handleSubmit = () => {
-        const { nombre, categoria, precio, descripcion, marca, puertas, pasajeros, motor } = formData;
-        if (!nombre || !categoria || !precio || !descripcion || !marca || puertas < 2 || pasajeros < 2 || !motor) {
+        const { name, category, price, description, brand, doors, passengers, engine } = formData;
+        if (!name || !category || !price || !description || !brand || doors < 2 || passengers < 2 || !engine) {
             alert("Por favor, completa todos los campos correctamente.");
             return;
         }
@@ -71,21 +71,21 @@ export default function AutoForm({ autoInicial, onSave, onClose }) {
                     <div className="w-full">
                         <input
                             type="text"
-                            name="nombre"
-                            value={formData.nombre}
+                            name="name"
+                            value={formData.name}
                             onChange={handleInputChange}
                             className="mb-2 p-2 border w-full md:w-2/3"
                             placeholder="Nombre"
                         />
                         <select
-                            name="categoria"
-                            value={formData.categoria}
+                            name="category"
+                            value={formData.category}
                             onChange={handleInputChange}
                             className="mb-2 p-[9px] border w-full md:w-1/3"
                         >
-                            {categorias.map((categoria) => (
-                                <option key={categoria} value={categoria}>
-                                    {categoria}
+                            {categorias.map((category) => (
+                                <option key={category} value={category}>
+                                    {category}
                                 </option>
                             ))}
                         </select>
@@ -100,8 +100,8 @@ export default function AutoForm({ autoInicial, onSave, onClose }) {
                     <div className="w-full">
                         <input
                             type="text"
-                            name="descripcion"
-                            value={formData.descripcion}
+                            name="description"
+                            value={formData.description}
                             onChange={handleInputChange}
                             className="mb-2 p-2 border w-full"
                             placeholder="Descripción"
@@ -110,8 +110,8 @@ export default function AutoForm({ autoInicial, onSave, onClose }) {
                     <div className="w-full">
                         <input
                             type="text"
-                            name="marca"
-                            value={formData.marca}
+                            name="brand"
+                            value={formData.brand}
                             onChange={handleInputChange}
                             className="mb-2 p-2 border w-full"
                             placeholder="Marca"
@@ -123,8 +123,8 @@ export default function AutoForm({ autoInicial, onSave, onClose }) {
                             <label className="block text-sm font-medium text-gray-700">Puertas</label>
                             <input
                                 type="number"
-                                name="puertas"
-                                value={formData.puertas}
+                                name="doors"
+                                value={formData.doors}
                                 onChange={handleInputChange}
                                 className="mb-2 p-2 border w-full"
                                 placeholder="Puertas"
@@ -135,8 +135,8 @@ export default function AutoForm({ autoInicial, onSave, onClose }) {
                             <label className="block text-sm font-medium text-gray-700">Pasajeros</label>
                             <input
                                 type="number"
-                                name="pasajeros"
-                                value={formData.pasajeros}
+                                name="passengers"
+                                value={formData.passengers}
                                 onChange={handleInputChange}
                                 className="mb-2 p-2 border w-full"
                                 placeholder="Pasajeros"
@@ -144,11 +144,11 @@ export default function AutoForm({ autoInicial, onSave, onClose }) {
                             />
                         </div>
                         <div className="w-full md:w-1/3">
-                            <label className="block text-sm font-medium text-gray-700">2L</label>
+                            <label className="block text-sm font-medium text-gray-700">Motor</label>
                             <input
                                 type="text"
-                                name="motor"
-                                value={formData.motor}
+                                name="engine"
+                                value={formData.engine}
                                 onChange={handleInputChange}
                                 className="mb-2 p-2 border w-full"
                                 placeholder="2L"
@@ -158,8 +158,8 @@ export default function AutoForm({ autoInicial, onSave, onClose }) {
                     <div className="w-full">
                         <input
                             type="number"
-                            name="precio"
-                            value={formData.precio}
+                            name="price"
+                            value={formData.price}
                             onChange={handleInputChange}
                             className="mb-2 p-2 border w-full"
                             placeholder="Precio"
@@ -170,8 +170,8 @@ export default function AutoForm({ autoInicial, onSave, onClose }) {
                 <label className="flex items-center justify-center md:justify-start mt-4">
                     <input
                         type="checkbox"
-                        name="condicionado"
-                        checked={formData.condicionado}
+                        name="ac"
+                        checked={formData.ac}
                         onChange={handleInputChange}
                         className="form-checkbox h-5 w-5 text-blue-600"
                     />

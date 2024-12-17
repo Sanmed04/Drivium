@@ -1,14 +1,29 @@
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 
 export default function Contacto() {
-    const [showPopup, setShowPopup] = useState(false);
+    const [nombre, setNombre] = useState("");
+    const [email, setEmail] = useState("");
+    const [mensaje, setMensaje] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setShowPopup(true);
-        setTimeout(() => {
-            setShowPopup(false);
-        }, 4000);
+        if (!nombre || !email || !mensaje) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor, complete todos los campos.',
+            });
+            return;
+        }
+        Swal.fire({
+            icon: 'success',
+            title: 'Mensaje enviado correctamente',
+            showConfirmButton: false,
+            timer: 3000
+        }).then(() => {
+            window.location.reload();
+        });
     };
 
     return (
@@ -28,6 +43,8 @@ export default function Contacto() {
                         type="text"
                         placeholder="Ingrese su nombre"
                         className="bg-transparent text-white text-2xl"
+                        value={nombre}
+                        onChange={(e) => setNombre(e.target.value)}
                     />
                     <label htmlFor="email" className="text-white text-2xl">
                         Email
@@ -36,6 +53,8 @@ export default function Contacto() {
                         type="email"
                         placeholder="Ingrese su email"
                         className="bg-transparent text-white text-2xl"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <label htmlFor="mensaje" className="text-white text-2xl">
                         Mensaje
@@ -48,15 +67,12 @@ export default function Contacto() {
                         rows="5"
                         maxLength={200}
                         className="max-h-[300px] bg-transparent border-2 border-white text-white text-2xl"
+                        value={mensaje}
+                        onChange={(e) => setMensaje(e.target.value)}
                     ></textarea>
                     <button type="submit" className="bg-white text-black text-2xl rounded-lg py-4 hover:bg-gray-700 hover:text-white transition-all duration-300">
                         Enviar
                     </button>
-                    {showPopup && (
-                        <div className="mt-4 p-2 bg-green-500 text-white rounded">
-                            Mensaje enviado correctamente
-                        </div>
-                    )}
                 </form>
             </div>
         </>
